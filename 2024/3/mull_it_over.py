@@ -1,7 +1,70 @@
+import re
+
 import sys
 sys.path.append('../')
 from functions import read_file, print_answers
 
+
+def calculate_all_product_sums(text):
+
+    res = 0
+
+    for match in re.finditer(r"mul\((\d{1,3}),(\d{1,3})\)", text):
+         
+        """REGEX
+        mul: find all instances of "mul"
+            \(: find "("
+            \): find "("
+            \d{1,3}: special string of digits with length 1-3 => (...) captures a unique group instance to match
+        """
+
+        x1, x2 = match.group(1), match.group(2)
+
+        res += int(x1)*int(x2)
+
+    return res
+
+def calculate_all_enabled_product_sums(text):
+
+    last = True
+    res = 0
+    for match in re.finditer(r"mul\((\d{1,3}),(\d{1,3})\)|do\(\)|don't\(\)", text):
+        
+        """REGEX
+        mul: find all instances of "mul"
+            \(: find "("
+            \): find "("
+            \d{1,3}: special string of digits with length 1-3 => (...) captures a unique group instance to match
+        OR
+        do\(\): all instances of "do()"
+        OR
+        don't\(\): all instances of "don't()"
+        """
+
+        if match.group(0) == "do()":
+            last = True
+        elif match.group(0) == "don't()":
+            last = False
+        elif last:
+                x1, x2 = match.group(1), match.group(2)
+                res += int(x1)*int(x2)
+
+    return res
+
+def main(path):
+
+    with open(path, 'r') as f:
+        text = f.read()
+
+    ans1 = calculate_all_product_sums(text)
+    ans2 = calculate_all_enabled_product_sums(text)
+
+    print_answers(path, ans1, ans2)
+
+main('3/sample_input.txt')
+main('3/input.txt')
+
+"""
 def get_product_sum(text):
 
     muls = text.split('mul(')
@@ -81,3 +144,4 @@ def main(path):
 
 main('3/sample_input.txt')
 main('3/input.txt')
+"""
