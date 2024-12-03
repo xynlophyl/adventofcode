@@ -87,5 +87,3 @@ def main(path):
 
 main('2/sample_input.txt')
 main('2/input.txt')
-
-# 328
