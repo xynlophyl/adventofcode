@@ -2,9 +2,9 @@ def read_file(path):
 
     with open(path, 'r') as f:
 
-        lines = f.readlines()
+        text = f.read()
 
-    return lines
+    return text
 
 def print_answers(path, ans1, ans2 = None):
 
