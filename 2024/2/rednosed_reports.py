@@ -2,7 +2,9 @@ import sys
 sys.path.append('../')
 from functions import read_file, print_answers
 
-def parse_inputs(lines):
+def parse_inputs(text):
+
+    lines = text.splitlines()
 
     parsed_lines = []
 
@@ -76,9 +78,9 @@ def check_safety_with_dampener(lines):
 
 def main(path):
 
-    lines = read_file(path)
+    text = read_file(path)
 
-    lines = parse_inputs(lines)
+    lines = parse_inputs(text)
 
     ans1 = check_safety(lines)
     ans2 = check_safety_with_dampener(lines)
