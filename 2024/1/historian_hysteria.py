@@ -4,7 +4,9 @@ import sys
 sys.path.append('../')
 from functions import read_file, print_answers
 
-def parse_input(lines):
+def parse_input(text):
+
+    lines = text.splitlines()
 
     col1, col2 = [], []
 
@@ -57,10 +59,10 @@ def calculate_similarity_score(col1, col2):
 
 def main(path):
 
-    lines = read_file(path)
+    text = read_file(path)
 
     # separate into two separate lists
-    col1, col2 = parse_input(lines)
+    col1, col2 = parse_input(text)
 
     assert len(col1) == len(col2)
 

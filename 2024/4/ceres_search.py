@@ -68,7 +68,9 @@ def find_XMAS(lines):
 
 def main(path):
 
-    lines = read_file(path)
+    text = read_file(path)
+
+    lines = text.splitlines()
 
     lines = [line.strip() for line in lines]
     lines = [[x for x in line] for line in lines]
