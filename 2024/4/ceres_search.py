@@ -17,7 +17,6 @@ def find_X_MAS(lines):
 
     res = 0
     for r, c in queue:
-        flag = True
         for dx, dy in d:
             if 0 <= r+dy < len(lines) and 0 <= c+dx < len(lines[0]) and 0 <= r-dx < len(lines) and 0 <= c-dy < len(lines[0]):
                 x = lines[r+dy][c+dx]
@@ -26,13 +25,11 @@ def find_X_MAS(lines):
                 if x in 'MS' and y in 'MS' and x != y:
                     continue
                 else:
-                   flag = False
                    break
             else:
-                flag = False 
                 break
-        
-        res += flag
+        else:
+            res += 1
 
     return res
 
