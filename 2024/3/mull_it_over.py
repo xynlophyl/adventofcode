@@ -53,8 +53,7 @@ def calculate_all_enabled_product_sums(text):
 
 def main(path):
 
-    with open(path, 'r') as f:
-        text = f.read()
+    text = read_file(path)
 
     ans1 = calculate_all_product_sums(text)
     ans2 = calculate_all_enabled_product_sums(text)
