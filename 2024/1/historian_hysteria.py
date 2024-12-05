@@ -1,11 +1,10 @@
-import heapq
+import heapq # heap unnecessary, just sort list instead
 
 import sys
 sys.path.append('../')
 from functions import read_file, print_answers
 
 def parse_input(text):
-
     lines = text.splitlines()
 
     col1, col2 = [], []
@@ -21,7 +20,6 @@ def parse_input(text):
     return col1, col2
 
 def sum_difference_in_min_pairs(col1, col2):
-
     col1 = col1[:]
     col2 = col2[:]
 
@@ -43,7 +41,6 @@ def sum_difference_in_min_pairs(col1, col2):
     return res
 
 def calculate_similarity_score(col1, col2):
-
     counts = {}
 
     # count occurrences
@@ -58,7 +55,6 @@ def calculate_similarity_score(col1, col2):
     return res
 
 def main(path):
-
     text = read_file(path)
 
     # separate into two separate lists
@@ -73,7 +69,6 @@ def main(path):
     ans2 = calculate_similarity_score(col1, col2)
 
     print_answers(path, ans1, ans2)
-
 
 main('1/sample_input.txt')
 main('1/input.txt')

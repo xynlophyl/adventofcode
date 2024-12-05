@@ -3,7 +3,6 @@ sys.path.append('../')
 from functions import read_file, print_answers
 
 def parse_inputs(text):
-
     lines = text.splitlines()
 
     parsed_lines = []
@@ -18,16 +17,13 @@ def parse_inputs(text):
     
     return parsed_lines
 
-def check_safety(lines, dampeners = 0):
-
+def check_safety(lines):
     count = 0
 
     for line in lines:
-
-        low, high = 0, len(line) - 1
+        low, high = 0, len(line) - 1 # two pointer, work from edges to middle
 
         ord_flag = (line[0] - line[low+1]) > 0
-        safe = True
 
         while low < high:
 
@@ -37,27 +33,22 @@ def check_safety(lines, dampeners = 0):
             low_adj_flag = 0 < abs(low_diff) < 4
             high_adj_flag = 0 < abs(high_diff) < 4
 
-
-            if not(low_adj_flag and high_adj_flag and ord_flag == (low_diff > 0) and ord_flag == (high_diff > 0)):
-                safe = False
+            if not(low_adj_flag and high_adj_flag and ord_flag == (low_diff > 0) and ord_flag == (high_diff > 0)): # requirements not satisfied
                 break
-
 
             low += 1
             high -= 1
-
-        if safe:
+        else:
             count += 1
 
     return count
 
 
 def check_safety_with_dampener(lines):
-
-    def check(line, idx):
-
+    
+    def check(line, idx): 
         if idx != -1:
-            new_line = line[:idx] + line[idx+1:]
+            new_line = line[:idx] + line[idx+1:] 
         else:
             new_line = line[:]
 
@@ -68,8 +59,7 @@ def check_safety_with_dampener(lines):
     
     count = 0
     for line in lines:
-
-        for idx in range(-1, len(line), 1):
+        for idx in range(-1, len(line), 1): # brute force: try every possible combination of dampening (and no dampening)
             if check(line, idx):
                 count += 1
                 break

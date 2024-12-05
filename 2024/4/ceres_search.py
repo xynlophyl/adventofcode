@@ -36,22 +36,23 @@ def find_XMAS(lines):
 
     for r, row in enumerate(lines):
         for c, val in enumerate(row):
-            if val == 'X':
+            if val == 'X': # find all instances of X in grid
                 queue.append((r,c))
 
     res = 0
-    d =[(0,1), (1,0), (0,-1), (-1,0), (1,1), (1,-1), (-1, 1), (-1, -1)]
+    d =[(0,1), (1,0), (0,-1), (-1,0), (1,1), (1,-1), (-1, 1), (-1, -1)] # different directions for XMAS to appear in
 
     for dx, dy in d:
         for r, c in queue:
             idx = 0
 
-            while 0 <= r+dy < len(lines) and 0 <= c+dx < len(lines[0]) and idx+1 < len(order) and lines[r+dy][c+dx] == order[idx+1]:
+            # for a given direction, check if XMAS appears in order
+            while 0 <= r+dy < len(lines) and 0 <= c+dx < len(lines[0]) and idx+1 < len(order) and lines[r+dy][c+dx] == order[idx+1]:    
                 idx += 1
                 r = r+dy
                 c = c+dx
             
-            if idx +1 == 4:
+            if idx + 1 == 4: # loop broken because found XMAS
                 res += 1
     
     return res
