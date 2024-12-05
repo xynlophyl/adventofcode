@@ -1,11 +1,8 @@
-from collections import deque 
-
 import sys
 sys.path.append('../')
 from functions import read_file, print_answers
 
 def find_X_MAS(lines):
-
     queue = []
     
     for r, row in enumerate(lines):
@@ -34,8 +31,6 @@ def find_X_MAS(lines):
     return res
 
 def find_XMAS(lines):
-
-    # queue = deque([])
     queue = []
     order = 'xmas'.upper()
 
@@ -46,8 +41,6 @@ def find_XMAS(lines):
 
     res = 0
     d =[(0,1), (1,0), (0,-1), (-1,0), (1,1), (1,-1), (-1, 1), (-1, -1)]
-        
-    res = 0
 
     for dx, dy in d:
         for r, c in queue:
