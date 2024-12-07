@@ -1,8 +1,9 @@
-path = '7/sample_input.txt'
-path = '7/input.txt'
-
+import functools
 import time
 start = time.time()
+
+path = '7/sample_input.txt'
+path = '7/input.txt'
 
 with open(path, 'r') as f:
     text = f.read()
@@ -28,36 +29,30 @@ operations = [
     lambda x, y: x*y,
 ]
 
-def backtrack(answer, part, idx, res):
+def evaluate(answer, part):
+    @functools.cache
+    def backtrack(idx, res):
+        if idx == len(part):
+            return res == answer
 
-    if idx == len(part):
-        return res == answer
+        for operation in operations:
+            if backtrack(idx+1, operation(res, part[idx])):
+                return True
 
-    for operation in operations:
-        if backtrack(answer, part, idx = idx + 1, res = operation(res, part[idx])):
-            return True
-
-    return False
+    return backtrack(0, 0)
 
 answers, parts = parse_lines(lines)
 
 res = 0
 for answer, part in zip(answers, parts):
-    if backtrack(answer, part, idx = 1, res = part[0]):
-        # print('YES', answer)
-        res += answer
-
-print(res)
+    res += answer if evaluate(answer, part) else 0
+        
+print(res, time.time()-start)
 
 """PART 2"""
-operations = [
-    lambda x, y: x+y,
-    lambda x, y: x*y,
-    lambda x, y: int(str(x) + str(y)) 
-]
+operations.append(lambda x, y: int(str(x) + str(y)))
 res = 0
 for answer, part in zip(answers, parts):
-    if backtrack(answer, part, idx = 1, res = part[0]):
-        res += answer
+    res += answer if evaluate(answer, part) else 0
 
-print(res)
+print(res, time.time()-start)
