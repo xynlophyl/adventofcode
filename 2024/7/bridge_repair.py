@@ -47,7 +47,7 @@ for answer, part in zip(answers, parts):
         # print('YES', answer)
         res += answer
 
-print(res, time.time() - start)
+print(res)
 
 """PART 2"""
 operations = [
@@ -60,4 +60,4 @@ for answer, part in zip(answers, parts):
     if backtrack(answer, part, idx = 1, res = part[0]):
         res += answer
 
-print(res, time.time() - start)
+print(res)
