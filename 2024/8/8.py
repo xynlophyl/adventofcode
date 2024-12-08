@@ -53,12 +53,12 @@ def get_possible_anti_antennas(locations):
 
 antennas = find_antennas(lines)
 
-# anti_antennas = set()
-# for antenna, locations in antennas.items():
-#     get_possible_anti_antennas(locations)
+anti_antennas = set()
+for antenna, locations in antennas.items():
+    get_possible_anti_antennas(locations)
 
-# res = len(anti_antennas)
-# print(res)
+res = len(anti_antennas)
+print(res)
 
 """PART 2"""
 def get_possible_anti_antennas(locations):
