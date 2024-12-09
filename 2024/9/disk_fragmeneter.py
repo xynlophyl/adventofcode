@@ -41,42 +41,39 @@ disk = generate_disk(text)
 high = len(disk) - 1
 
 def find_free_spaces(start):
-    last_block = disk[start]    
     while start < len(disk) and disk[start] != '.':
         start += 1
-        last_block = disk[low]
 
     end = start
     while end < len(disk) and disk[end] == '.':
         end += 1
 
-    return start, end, last_block
+    return start, end
 
 visited = set('.')
+low = 0
 while high >= 0:
     if disk[high] in visited: # find block to move
         high -= 1
     else:
-        low = 0
+        start, end = find_free_spaces(low)
+        low = start
+
         curr = disk[high] # get block id
         high_start = disk.index(curr) # find the first instance of block
         
-        while low < len(disk):
+        while start < len(disk):
             n = high - high_start + 1 # get range of block
-            start, end, last_block = find_free_spaces(low) # get range of free spaces
-            # print(end, start, end-start)
+            start, end = find_free_spaces(start) # get range of free spaces
 
             if start > high_start:
                 break
             elif end - start >= n: # fits
                 disk[start:start+n], disk[high_start:high+1] = disk[high_start:high+1], disk[start:start+n]
-                # print(''.join(disk))
-                # input()
                 break
             else:
-                low = end
+                start = end
 
-        # print('block', disk[high], n)
         high = high_start - 1
         visited.add(curr)
         
