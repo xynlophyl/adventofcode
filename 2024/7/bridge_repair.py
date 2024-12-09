@@ -1,6 +1,4 @@
 import functools
-import time
-start = time.time()
 
 path = '7/sample_input.txt'
 path = '7/input.txt'
@@ -47,7 +45,7 @@ res = 0
 for answer, part in zip(answers, parts):
     res += answer if evaluate(answer, part) else 0
         
-print(res, time.time()-start)
+print(res)
 
 """PART 2"""
 operations.append(lambda x, y: int(str(x) + str(y)))
@@ -55,4 +53,4 @@ res = 0
 for answer, part in zip(answers, parts):
     res += answer if evaluate(answer, part) else 0
 
-print(res, time.time()-start)
+print(res)

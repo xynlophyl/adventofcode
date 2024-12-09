@@ -1,6 +1,4 @@
 from collections import defaultdict
-import time
-start = time.time()
 
 path = '8/sample_input.txt'
 path = '8/input.txt'
