@@ -56,23 +56,21 @@ while high >= 0:
     if disk[high] in visited: # find block to move
         high -= 1
     else:
-        start, end = find_free_spaces(low)
-        low = start
+        start, end = find_free_spaces(low) # get range of free spaces
+        low = start # since this is the current first instance of ".", set the start point here for next block's search here 
 
         curr = disk[high] # get block id
         high_start = disk.index(curr) # find the first instance of block
+        n = high - high_start + 1 # get range of block
         
         while start < len(disk):
-            n = high - high_start + 1 # get range of block
-            start, end = find_free_spaces(start) # get range of free spaces
-
             if start > high_start:
                 break
             elif end - start >= n: # fits
                 disk[start:start+n], disk[high_start:high+1] = disk[high_start:high+1], disk[start:start+n]
                 break
             else:
-                start = end
+                start, end = find_free_spaces(end)
 
         high = high_start - 1
         visited.add(curr)
