@@ -1,5 +1,4 @@
 import functools
-from tqdm import tqdm
 path = '11/sample_input.txt'
 path = '11/input.txt'
 
