@@ -33,4 +33,3 @@ print(res)
 engravings = [x for x in text.split()]
 res = count_stones_after_blinking(engravings, 75)
 print(res)
-# 389319131741402
