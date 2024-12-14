@@ -92,4 +92,5 @@ for idx in range(0, len(lines), 4):
     machine = configure_machine(lines[idx:idx+3])
     res += get_score_np(machine, 10000000000000)
 
+res = int(res)
 print(res)
