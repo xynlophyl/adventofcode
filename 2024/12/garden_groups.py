@@ -1,6 +1,6 @@
 from collections import defaultdict
 path = '12/sample_input.txt'
-# path = '12/input.txt'
+path = '12/input.txt'
 
 with open(path, 'r') as f:
     text = f.read()
@@ -64,14 +64,10 @@ def get_group(r, c, val):
             if is_valid(r+dy, c+dx) and lines[r+dy][c+dx] == val:
                 stack.append((r+dy, c+dx))
     
-    # print((r,c), val, group)
     return group
 
 def get_sides(group):
     group_set = set(group)
-
-    horizontals = 0
-    verticals = 0
 
     rs = [r for r,c in group]
     cs = [c for r,c in group]
@@ -79,45 +75,54 @@ def get_sides(group):
     min_r, max_r = min(rs), max(rs)
     min_c, max_c = min(cs), max(cs)
 
-    # check horizontal
-    for r in range(min_r, max_r+2, 1):
-        sections = []
-        for c in range(min_c, max_c+1, 1):
-            # print(r,c, lines[r][c], (r,c) in group_set, (r-1, c) in group_set)
-            if ((r,c) in group_set) != ((r-1, c) in group_set):
-                sections.append(1)
+    # check top sides
+    top = 0
+    for r in range(min_r, max_r+1, 1):
+        c = min_c
+        while c <= max_c:
+            if ((r,c) in group_set) and ((r-1, c) not in group_set):
+                while c <= max_c and ((r,c) in group_set) and ((r-1, c) not in group_set):
+                    c += 1
+                top += 1
             else:
-                sections.append(0)
-
-        # print(sections)
-        h = 0
-        for idx, x in enumerate(sections[:-1]):
-            if x == 1 and  sections[idx+1] == 0:
-                h += 1
-        if sections[-1] == 1:
-            h += 1
-        # print(h)
-        horizontals += h
-        # input()
+                c += 1
     
-    for c in range(min_c, max_c+2, 1):
-        sections = []
-        for r in range(min_r, max_r+1, 1):
-            if ((r,c) in group_set) != ((r, c-1) in group_set):
-                sections.append(1)
+    # check bottom sides
+    bottom = 0
+    for r in range(min_r, max_r+1, 1):
+        c = min_c
+        while c <= max_c:
+            if ((r,c) in group_set) and ((r+1, c) not in group_set):
+                while c <= max_c and ((r,c) in group_set) and ((r+1, c) not in group_set):
+                    c += 1
+                bottom += 1
             else:
-                sections.append(0)
-        
-        v = 0
-        for idx, x in enumerate(sections[:-1]):
-            if x == 1 and sections[idx+1] == 0:
-                v += 1
-        if sections[-1] == 1:
-            v += 1
-        verticals += v
+                c += 1
 
-    # print(horizontals, verticals)
-    return horizontals + verticals
+    # check left sides
+    left = 0
+    for c in range(min_c, max_c+1, 1):
+        r = min_r
+        while r <= max_r:
+            if ((r,c) in group_set) and ((r, c-1) not in group_set):
+                while r <= max_r and ((r,c) in group_set) and ((r, c-1) not in group_set):
+                    r += 1
+                left += 1
+            else:
+                r += 1
+    
+    # check right sides
+    right = 0
+    for c in range(min_c, max_c+1, 1):
+        r = min_r
+        while r <= max_r:
+            if ((r,c) in group_set) and ((r, c+1) not in group_set):
+                while r <= max_r and ((r,c) in group_set) and ((r, c+1) not in group_set):
+                    r += 1
+                right += 1
+            else:
+                r += 1
+    return top+bottom+left+right
 
 res = 0
 visited = set()
@@ -128,9 +133,6 @@ for r, row in enumerate(lines):
         group = get_group(r,c, val)
         area = len(group)
         sides = get_sides(group)
-        print(r,c, val, area, sides)
-        # input()
         res += area*sides
 
 print(res)
-# 893904
