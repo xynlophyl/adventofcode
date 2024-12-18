@@ -22,8 +22,6 @@ def generate_grid(grid, stop):
     return grid
 
 grid = generate_grid(original_grid, 1024)
-# for row in grid:
-#     print(row)
 
 """PART 1"""
 dirs = [(0,1), (1,0), (0,-1), (-1,0)]
@@ -62,15 +60,16 @@ for res, line in enumerate(lines):
     # update grid
     grid[r] = grid[r][:c] + '#' + grid[r][c+1:]
     
-    # if new obstacle in previous shortest path, then find a new path
+    # if new obstacle obstructs previous shortest path, then find a new path starting from right before block
     if (r,c) in path:
         start = path.index((r,c))
-        # print('found block at', path[start])
         
         start_r, start_c = path[start-1]
         path = find_path((start_r, start_c, path[:start]))
 
+        # if no new path, then get result
         if path == []:
             break
 
-print(res, r, c)
+res = f"{r},{c}"
+print(res)
