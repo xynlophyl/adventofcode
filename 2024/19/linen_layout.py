@@ -32,9 +32,9 @@ def check_pattern(pattern):
 
     pattern = pattern
     return search(0)
+
 res = 0
 for pattern in patterns:
-    # print(pattern, check_pattern(pattern))
     res += check_pattern(pattern)
 
 print(res)
@@ -59,6 +59,5 @@ def count_arrangements(pattern):
 
 res = 0
 for pattern in patterns:
-    # print(pattern, check_pattern(pattern))
     res += count_arrangements(pattern)
 print(res)
