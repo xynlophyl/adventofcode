@@ -6,7 +6,7 @@ from functions import get_day
 
 
 path = f'{get_day(__file__)}/sample_input.txt'
-# path = f'{get_day(__file__)}/input.txt'
+path = f'{get_day(__file__)}/input.txt'
 
 with open(path, 'r') as f:
     text = f.read()
@@ -63,32 +63,24 @@ def get_dists(start):
     return dists
 
 def search_with_cheats(start, num_cheats):
-    queue = []
-    r, c = start
-    for dy, dx in dirs:
-        if is_valid(r+dy, c+dx) and grid[r+dy][c+dx] == '#':
-            queue.append((r+dy, c+dx, 1, (r+dy, c+dx)))
-
+    queue = deque([(*start, 0)])
     dists = {}
-    queue = deque(queue)
-    while queue:
-        r, c, dist, cheat_start = queue.popleft()
-        cheats = (*cheat_start, r,c)
-        if cheats in dists:
-            continue
-        dists[cheats] = dist
 
-        if dist == num_cheats:
+    while queue:
+        r, c, dist = queue.popleft()
+
+        # calculate shortest distance (with cheating) for each cell
+        if dist > num_cheats:
+            break
+        elif (r,c) in dists:
             continue
+        dists[(r,c)] = dist
 
         for dy, dx in dirs:
             if not is_valid(r+dy, c+dx):
                 continue
-            elif dist == num_cheats-1 and grid[r+dy][c+dx] !='#': # make sure that the final timestep of cheating brings racecar back to track
-                queue.append((r+dy, c+dx, dist+1, cheat_start))
-            else:
-                queue.append((r+dy,c+dx, dist+1, cheat_start))
-    
+            queue.append((r+dy,c+dx, dist+1))
+
     return dists
 
 def count_time_saves(num_cheats, threshold):
@@ -96,23 +88,19 @@ def count_time_saves(num_cheats, threshold):
     counter = Counter()
     for r, row in enumerate(grid):
         for c, val in enumerate(row):
-            if val == '#' or (r,c) not in dists_from_start:
+            if val == '#':
                 continue
-            cheat_ends = search_with_cheats((r,c), num_cheats)
+            
+            dists = search_with_cheats((r,c), num_cheats)
 
-            a = max(cheat_ends.values())
-            print(a)
-
-            for (_, _, cheat_r, cheat_c), dist in cheat_ends.items():
-                if (cheat_r, cheat_c) not in dists_from_end:
+            for (r1, c1), dist in dists.items():
+                if grid[r1][c1] == '#':
                     continue
-                total_dist = dists_from_start[(r,c)] + dist + dists_from_end[(cheat_r,cheat_c)]-1
+
+                total_dist = dists_from_start[(r,c)] + dist + dists_from_end[(r1,c1)] - 1
                 if original_dist - total_dist >= threshold:
                     counter[original_dist-total_dist] += 1
                     res += 1
-    
-    for i, j in sorted(counter.items(), key = lambda x: x[0]):
-        print(j, i)
 
     return res
 
@@ -121,17 +109,12 @@ dists_from_end = get_dists((*end, 1))
 original_dist = dists_from_start[end]
 
 """PART 1"""
-# res = count_time_saves(2, 1)
-# res = count_time_saves(2, 100)
-# print(res)
-print()
+res = count_time_saves(2, 100)
+print(res)
 
 """PART 2"""
-res = count_time_saves(20, 50)
-
-# res = count_time_saves(20, 100)
+res = count_time_saves(20, 100)
 print(res)
-# 140084 < res < 1759777 < 2199963 
 
 # """PART 1"""
 # dirs = [(0,1), (1,0), (0,-1), (-1,0)]
