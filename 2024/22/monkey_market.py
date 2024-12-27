@@ -5,7 +5,7 @@ from functions import get_day
 
 
 path = f'{get_day(__file__)}/sample_input.txt'
-# path = f'{get_day(__file__)}/input.txt'
+path = f'{get_day(__file__)}/input.txt'
 
 with open(path, 'r') as f:
     text = f.read()
@@ -42,12 +42,14 @@ for idx, start in enumerate(starts):
     res += curr
 print(res)
 
+
 """PART 2"""
-def get_sequences_values(ones, changes, window_size = 4):
+def get_sequence_values(ones, changes, window_size = 4):
+    global j
     sequence_val = {}
     idx = 0
     while idx < N - window_size:
-        sequence = (*changes[idx:idx+window_size],)
+        sequence = tuple(changes[idx:idx+window_size])
         if sequence not in sequence_val:
             sequence_val[sequence] = ones[idx+window_size-1]
 
@@ -59,18 +61,15 @@ all_changes = []
 res = 0
 
 counter = Counter()
+vals = []
 for idx, ones in enumerate(all_ones):
-    changes = [0] + [ones[idx+1] - ones[idx] for idx in range(N-1)]
-
-    for seq, val in get_sequences_values(ones, changes).items():
+    changes = [float('-inf')] + [ones[j+1] - ones[j] for j in range(N-1)]
+    
+    for seq, val in get_sequence_values(ones, changes).items():
         counter[seq] += val
     
 res = max(counter.values())
 print(res)
-# res < 1786
-
-seq, val = max(counter.items(), key = lambda x: x[1])
-print(seq, val)
 
 """
 1. x*64 => mix => prune => x1
